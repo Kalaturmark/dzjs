@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рандомайзер задач</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            margin-top: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #e0e0e0;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Рандомайзер задач</h1>
+    <form id="taskForm">
+        <label for="task">Задача:</label>
+        <input type="text" id="task" required>
+        <label for="importance">Важность:</label>
+        <select id="importance" required>
+            <option value="1">Высокая</option>
+            <option value="2">Средняя</option>
+            <option value="3">Низкая</option>
+        </select>
+        <button type="submit">Добавить задачу</button>
+    </form>
+    <ul id="taskList"></ul>
+</div>
+<script>
+    document.getElementById('taskForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const taskInput = document.getElementById('task');
+        const importanceInput = document.getElementById('importance');
+
+        const task = taskInput.value;
+        const importance = importanceInput.value;
+
+        addTask(task, importance);
+
+        taskInput.value = '';
+        importanceInput.value = '1';
+    });
+
+    function addTask(task, importance) {
+        const taskList = document.getElementById('taskList');
+
+        const li = document.createElement('li');
+        li.textContent = `${task} (Важность: ${importance})`;
+
+        const decision = getDecision();
+        const decisionText = document.createElement('p');
+        decisionText.textContent = decision;
+        li.appendChild(decisionText);
+
+        taskList.appendChild(li);
+    }
+
+    function getDecision() {
+        const randomNum = Math.random();
+        if (randomNum < 0.33) {
+            return 'Задача не будет выполнена';
+        } else {
+            const days = Math.floor(Math.random() * 10) + 1; // Случайное число от 1 до 10
+            return `Задача будет выполнена через ${days} дней`;
+        }
+    }
+</script>
+</body>
+</html>
